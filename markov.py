@@ -2,10 +2,12 @@ import re
 import pandas as pd
 import datetime as dt
 from collections import Counter
-import os 
+import os
+ 
 ginza = pd.read_csv("trance_ginza.csv")
-
 ginza.columns = ["index","day","post","devies","etc","etc2","etc3","etc4","etc5"]
+
+trance_ginza = []
 
 def convert_date(days):
 	for(i,day) in enumerate(days):
