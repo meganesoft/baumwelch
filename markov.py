@@ -2,16 +2,17 @@ import re
 import pandas as pd
 import datetime as dt
 from collections import Counter
-ginza = pd.read_csv('ginza_sample_keio.csv')
+import os 
+ginza = pd.read_csv("trance_ginza.csv")
 
-ginza.columns = ["day","post","devies","etc","etc2","etc3","etc4","etc5"]
+ginza.columns = ["index","day","post","devies","etc","etc2","etc3","etc4","etc5"]
 
 def convert_date(days):
-	for(day) in days:
-		print("yes")
-		day = re.sub('-','/',day)
-		day = re.sub('T0*|.***Z',' ',day)
-		day = dt.datetime.strptime(day,'%Y-%m-%d %H:%M:%S')
+	for(i,day) in enumerate(days):
+		days.loc[i] = re.sub('T',' ',days.loc[i])
+		days.loc[i] = re.sub('(\\\\|\....Z)','',days.loc[i])
+		days.loc[i] = dt.datetime.strptime(days.loc[i],'%Y-%m-%d %H:%M:%S')
+	print(days)
 	return days
 
 # 日付を比較して特定の間隔でデータをまとめる
@@ -35,4 +36,4 @@ def writting_date(index,name):
 
 if __name__ == '__main__':
 	ginza["day"] = convert_date(ginza["day"])
-	print(ginza["day"])
+	#print(ginza["day"])
