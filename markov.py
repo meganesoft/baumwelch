@@ -3,19 +3,21 @@ import pandas as pd
 import datetime as dt
 from collections import Counter
 import os
- 
+from tqdm import tqdm
 ginza = pd.read_csv("trance_ginza.csv")
 ginza.columns = ["index","day","post","devies","etc","etc2","etc3","etc4","etc5"]
 
-trance_ginza = []
-
+trance_ginza = pd.DataFrame([],columns=['id'])
+print(type(trance_ginza))
+#データの日付部分を正規表現で抽出し整形、その後Datatimeオブジェクトに変換
 def convert_date(days):
-	for(i,day) in enumerate(days):
-		days.loc[i] = re.sub('T',' ',days.loc[i])
-		days.loc[i] = re.sub('(\\\\|\....Z)','',days.loc[i])
-		days.loc[i] = dt.datetime.strptime(days.loc[i],'%Y-%m-%d %H:%M:%S')
-	print(days)
-	return days
+	#破壊的挙動を防ぐための配列target
+	target = list(range(len(days)))
+	for(i,day) in enumerate(tqdm(days)):
+		target[i] = re.sub('T',' ',day)
+		target[i] = re.sub('(\\\\|\....Z)','',target[i])
+		target[i] = dt.datetime.strptime(target[i],'%Y-%m-%d %H:%M:%S')
+	return target
 
 # 日付を比較して特定の間隔でデータをまとめる
 def comparison_date(column,interval):
@@ -28,8 +30,9 @@ def comparison_date(column,interval):
 		else:
 		#やっぱこっちに書く
 			c_markov = Counter(markov)
-			df = pd.DataFrame.from_dict(d,orient='index').reset_index()
-			writting_date(df,str(index))
+			print(c_markov)
+			#df = pd.DataFrame.from_dict(c_markov,orient='columns').reset_index()
+			#writting_date(df,str(index))
 			base_day = day
 			markov = []	
 
@@ -37,5 +40,10 @@ def writting_date(index,name):
 	index.to_csv(name)
 
 if __name__ == '__main__':
-	ginza["day"] = convert_date(ginza["day"])
-	#print(ginza["day"])
+	trance_ginza = convert_date(ginza["day"])
+	trance_ginza.append(ginza["post"])
+	print(trance_ginza)
+	trance_ginza['devies'] = ginza['devies']
+	
+	#intervalは時間の間(1時間単位)	
+	comparison_date(trace_ginza,3)
