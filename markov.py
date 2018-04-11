@@ -24,13 +24,17 @@ def convert_date(days):
 
 # 日付を比較して特定の間隔でデータをまとめる
 def comparison_date(column,interval):
-	print(column)
-	print("kokomade")
 	#DataFrameの最初の行を入れる
-	base_day = column[0]
+	base_day = pd.DataFrame(column[:1])
+	print("base_day.devies")
+	print(base_day.devies)
 	markov = []
-	for (index,day) in enumerate(tqdm(column)):
-		if day - base_day.day < interval and base_day.devies == day.devies:
+	for (index,day) in tqdm(column.iterrows()):
+		print("kore")
+		print(day)
+		print("korekore")
+		print(day["devies"])
+		if (base_day.devies == day["devies"]) & (day["day"] - base_day.day < interval):
 			markov.append(day.post)
 		else:
 			#やっぱこっちに書く
@@ -46,9 +50,8 @@ def writting_date(index,name):
 
 if __name__ == '__main__':
 	print(type(trance_ginza))
-	trance_ginza["day"] = pd.DataFrame(convert_date(ginza["day"]))
+	trance_ginza["day"] = pd.Series(convert_date(ginza["day"]).values.flatten())
 	trance_ginza["post"] = ginza["post"]
 	trance_ginza["devies"] = ginza["devies"]
-	print(trance_ginza)
 	#intervalは時間の間(1時間単位)	
 	comparison_date(trance_ginza,interval)
