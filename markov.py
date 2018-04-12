@@ -34,6 +34,10 @@ def comparison_date(column,interval):
 		print(day)
 		print("korekore")
 		print(day["devies"])
+		print("dayo")
+		print(type(base_day.day))
+
+		print("dayo")
 		if (base_day.devies == day["devies"]) & (day["day"] - base_day.day < interval):
 			markov.append(day.post)
 		else:
