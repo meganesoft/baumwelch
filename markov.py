@@ -4,6 +4,7 @@ import datetime as dt
 from collections import Counter
 import os
 from tqdm import tqdm
+import datetime
 
 ginza = pd.read_csv("trance_ginza.csv")
 ginza.columns = ["index","day","post","devies","etc","etc2","etc3","etc4","etc5"]
@@ -33,12 +34,12 @@ def comparison_date(column,interval):
 		print("kore")
 		print(day)
 		print("korekore")
-		print(day["devies"])
+		print(index)
 		print("dayo")
-		print(type(base_day.day))
+		print(base_day.day)
 
 		print("dayo")
-		if (base_day.devies == day["devies"]) & (day["day"] - base_day.day < interval):
+		if (base_day.devies == day["devies"]) & ((day["day"] - base_day.day) < datetime.timedelta(days=interval)):
 			markov.append(day.post)
 		else:
 			#やっぱこっちに書く
