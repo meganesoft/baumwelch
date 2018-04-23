@@ -4,7 +4,6 @@ import datetime as dt
 from collections import Counter
 import os
 from tqdm import tqdm
-import datetime
 
 ginza = pd.read_csv("trance_ginza.csv")
 ginza.columns = ["index","day","post","devies","etc","etc2","etc3","etc4","etc5"]
@@ -26,21 +25,25 @@ def convert_date(days):
 # 日付を比較して特定の間隔でデータをまとめる
 def comparison_date(column,interval):
 	#DataFrameの最初の行を入れる
-	base_day = pd.DataFrame(column[:1])
-	print("base_day.devies")
-	print(base_day.devies)
+	print(column)
+	base_day_base = pd.DataFrame(column[:1])
+	#base_day["day"] = pd.Series(base_day_base["day"].values.flatten())
+	#base_day["post"]  = base_day_base["post"]
+	#base_day["devies"]  = base_day_base["devies"]
 	markov = []
 	for (index,day) in tqdm(column.iterrows()):
 		print("kore")
-		print(day)
+		print(day["devies"])
 		print("korekore")
-		print(index)
 		print("dayo")
-		print(base_day.day)
-
+		print(base_day)
 		print("dayo")
-		if (base_day.devies == day["devies"]) & ((day["day"] - base_day.day) < datetime.timedelta(days=interval)):
-			markov.append(day.post)
+		print("kekka")
+		print(day["day"] - base_day["devies"])
+		print(dt.timedelta(days=interval))
+		if base_day["devies"] ==pd.DataFrame(day["devies"]):
+			if day["day"] - base_day["day"] <= dt.timedelta(days=interval):
+				markov.append(day.post)
 		else:
 			#やっぱこっちに書く
 			c_markov = Counter(markov)
