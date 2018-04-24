@@ -25,23 +25,20 @@ def convert_date(days):
 # 日付を比較して特定の間隔でデータをまとめる
 def comparison_date(column,interval):
 	#DataFrameの最初の行を入れる
-	print(column)
-	base_day_base = pd.DataFrame(column[:1])
-	#base_day["day"] = pd.Series(base_day_base["day"].values.flatten())
-	#base_day["post"]  = base_day_base["post"]
-	#base_day["devies"]  = base_day_base["devies"]
+	#print(column)
+	base_day = column[:1]
 	markov = []
 	for (index,day) in tqdm(column.iterrows()):
 		print("kore")
 		print(day["devies"])
 		print("korekore")
 		print("dayo")
-		print(base_day)
+		print(base_day["devies"].item())
 		print("dayo")
 		print("kekka")
-		print(day["day"] - base_day["devies"])
+		print(day["day"] - base_day["day"])
 		print(dt.timedelta(days=interval))
-		if base_day["devies"] ==pd.DataFrame(day["devies"]):
+		if base_day["devies"].item() == day["devies"]:
 			if day["day"] - base_day["day"] <= dt.timedelta(days=interval):
 				markov.append(day.post)
 		else:
