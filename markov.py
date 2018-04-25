@@ -39,7 +39,7 @@ def comparison_date(column,interval):
 		print(day["day"] - base_day["day"])
 		print(dt.timedelta(days=interval))
 		if base_day["devies"].item() == day["devies"]:
-			if day["day"] - base_day["day"] <= dt.timedelta(days=interval):
+			if day["day"] - base_day["day"].item() <= dt.timedelta(days=interval):
 				markov.append(day.post)
 		else:
 			#やっぱこっちに書く
