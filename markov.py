@@ -30,16 +30,17 @@ def comparison_date(column,interval):
 	markov = []
 	for (index,day) in tqdm(column.iterrows()):
 		print("kore")
-		print(day["devies"])
+		print(base_day)
 		print("korekore")
 		print("dayo")
-		print(base_day["devies"].item())
+		print(pd.to_datetime(base_day["day"].item()))
 		print("dayo")
 		print("kekka")
 		print(day["day"] - base_day["day"])
+		print("hhhh")
 		print(dt.timedelta(days=interval))
 		if base_day["devies"].item() == day["devies"]:
-			if day["day"] - base_day["day"].item() <= dt.timedelta(days=interval):
+			if day["day"] - pd.to_datetime(base_day["day"].item()) <= dt.timedelta(days=interval):
 				markov.append(day.post)
 		else:
 			#やっぱこっちに書く
